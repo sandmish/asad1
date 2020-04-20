@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 # Model: Category
 
 class Category(models.Model):
@@ -9,11 +10,6 @@ class Category(models.Model):
     slug = models.SlugField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='category', blank=True)
-
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
 
     def get_url(self):
         return reverse('products_by_category', args=[self.slug])
@@ -37,11 +33,6 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ('name',)
-        verbose_name = 'product'
-        verbose_name_plural = 'products'
-
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug, self.slug])
 
@@ -56,10 +47,6 @@ class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True)
     date_added = models.DateField(auto_now_add=True)
 
-    class Meta:
-        db_table = 'Cart'
-        ordering = ['date_added']
-
     def __str__(self):
         return self.cart_id
 
@@ -69,12 +56,6 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     active = models.BooleanField(default=True)
-
-    class Meta:
-        db_table = 'CartItem'
-
-    def sub_total(self):
-        return self.product.price * self.quantity
 
     def __str__(self):
         return self.product
@@ -99,10 +80,6 @@ class Order(models.Model):
     shippingPostcode = models.CharField(max_length=250, blank=True)
     shippingCountry = models.CharField(max_length=250, blank=True)
 
-    class Meta:
-        db_table = 'Order'
-        ordering = ['-created']
-
     def __str__(self):
         return str(self.id)
 
@@ -112,12 +89,6 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='USD Price')
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'OrderItem'
-
-    def sub_total(self):
-        return self.quantity * self.price
 
     def __str__(self):
         return self.product
