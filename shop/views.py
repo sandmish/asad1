@@ -1,4 +1,3 @@
-from django.core.mail import EmailMessage
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product, Cart, CartItem, Order, OrderItem, Review
 from django.core.exceptions import ObjectDoesNotExist
@@ -6,7 +5,7 @@ import stripe
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from .forms import SignUpForm, ContactForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
@@ -172,8 +171,7 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
         except stripe.error.CardError as e:
             return False, e
 
-    return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter, data_key=data_key,
-                                             stripe_total=stripe_total, description=description))
+    return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter, data_key=data_key, stripe_total=stripe_total, description=description))
 
 
 def cart_remove(request, product_id):
@@ -197,7 +195,6 @@ def cart_remove_product(request, product_id):
 
 
 def thanks_page(request, order_id):
-    global customer_order
     if order_id:
         customer_order = get_object_or_404(Order, id=order_id)
     return render(request, 'thankyou.html', {'customer_order': customer_order})
@@ -217,7 +214,19 @@ def signupView(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
-
+def change_password(request):
+    form = PasswordChangeForm(user=request.user, data=request.POST)
+    if request.method == 'GET':
+        return render(request, "password_change_form.html", {"form": form})
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return render(
+                request, "password_change_done.html", {}
+            )
+        return render(
+            request, "password_change_form.html", {"errors": form.errors}
+        )
 def signinView(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -242,7 +251,6 @@ def signoutView(request):
 
 @login_required(redirect_field_name='next', login_url='signin')
 def orderHistory(request):
-    global order_details
     if request.user.is_authenticated:
         email = str(request.user.email)
         order_details = Order.objects.filter(emailAddress=email)
@@ -253,7 +261,6 @@ def orderHistory(request):
 
 @login_required(redirect_field_name='next', login_url='signin')
 def viewOrder(request, order_id):
-    global order_items
     if request.user.is_authenticated:
         email = str(request.user.email)
         order = Order.objects.get(id=order_id, emailAddress=email)
@@ -284,7 +291,6 @@ def sendEmail(order_id):
         msg.send()
     except IOError as e:
         return e
-
 
 def contact(request):
     if request.method == 'POST':

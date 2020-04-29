@@ -56,6 +56,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'onlineshop.urls'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = '20c881578a01c6'
+EMAIL_HOST_PASSWORD = '2b412006986746'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,12 +85,15 @@ WSGI_APPLICATION = 'onlineshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+DATABASES = DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'musicstore',
+        'USER': 'postgres',
+        'PASSWORD': '2254'
     }
 }
+
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -132,5 +143,6 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_RiCM8suKDhl1Tac3OiO7ju9e00kWlpjqmj'
 STRIPE_SECRET_KEY = 'sk_test_6qdkdMkRzEXFBw9jxQYkELJ700lXCSSYJ4'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
+
 
 django_heroku.settings(locals())
