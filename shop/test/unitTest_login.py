@@ -1,8 +1,7 @@
-import unittest
 import time
+import unittest
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 
@@ -15,24 +14,26 @@ class MS_Test1(unittest.TestCase):
 
         driver = self.driver
         driver.maximize_window()
-        driver.get("https://myomknew.herokuapp.com/")
-        login_dropdown = driver.find_element_by_xpath('/html/body/nav/div/li[1]/a').click()
-        staff_login = driver.find_element_by_xpath('/html/body/nav/div/li[1]/div/a[2]').click()
-        time.sleep(0.5)
-        login_email_address = driver.find_element_by_id("exampleInputEmail1")
-        login_email_address.send_keys("staff@gmail.com")
-        login_email_pwd = driver.find_element_by_id("exampleInputPassword1")
-        login_email_pwd.send_keys("Team@123")
+        driver.get("https://onlineshopmusic.herokuapp.com/")
+        login_dropdown = driver.find_element_by_xpath('/html/body/nav/button/span').click()
+        login_user = driver.find_element_by_xpath('/html/body/nav/div/ul/li[5]/a').click()
         time.sleep(3.0)
-        login = driver.find_element_by_xpath('/html/body/div/div/div/form/div[3]/button').click()
+        login_email_address = driver.find_element_by_id("id_username")
+        login_email_address.send_keys("sandhya")
         time.sleep(3.0)
+        login_email_pwd = driver.find_element_by_id("id_password")
+        login_email_pwd.send_keys("password")
+        time.sleep(3.0)
+        sign_button = driver.find_element_by_xpath('/html/body/div/div/div[2]/div/form/button').click()
         try:
-            # attempt to find the plus button - if found, logged in
-            logout = driver.find_element_by_xpath('//*[@id="navbarText"]/li[2]/a')
+            # create account
+            create_login = driver.find_element_by_xpath('/html/body/div[2]/div/div/div/h1')
+            time.sleep(3.0)
             assert True
         except NoSuchElementException:
-            self.fail("Login Failed")
+            self.fail("Login Failed create account")
             assert False
+
 
 def tearDown(self):
     self.driver.close()
