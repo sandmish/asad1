@@ -17,10 +17,10 @@ class MS_Test3(unittest.TestCase):
         driver.get("https://onlineshopmusic.herokuapp.com/")
         login_dropdown = driver.find_element_by_xpath('/html/body/nav/button/span').click()
         login_user = driver.find_element_by_xpath('/html/body/nav/div/ul/li[5]/a').click()
-
+        time.sleep(1.0)
         login_email_address = driver.find_element_by_id("id_username")
         login_email_address.send_keys("sandhya")
-
+        time.sleep(1.0)
         login_email_pwd = driver.find_element_by_id("id_password")
         login_email_pwd.send_keys("password")
 
@@ -29,14 +29,14 @@ class MS_Test3(unittest.TestCase):
         try:
             # main page
             elem_button = driver.find_element_by_xpath('/html/body/div[2]/div/div/div/h1')
-
+            time.sleep(1.0)
             continue_test = True
         except NoSuchElementException:
             self.fail("unable to see main page")
             assert False
 
         if continue_test:
-            elem_button = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[3]/div/div[1]/a/img').click()
+            elem_button1 = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[3]/div/div[1]/a/img').click()
 
         try:
             # main page
