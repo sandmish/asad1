@@ -1,12 +1,11 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
+<!DOCTYPE html>
 {% load static %}
 {% block title %}
 Order Details
 {% endblock %}
 {% block content %}
     <div class="container">
-
     <div class="text-center">
       <br>
       <h1 class="text-center product_title">
@@ -17,7 +16,6 @@ Order Details
         <tr>
           <td class="text-left" colspan="2">
             <b>Order:</b> #{{ order.id }} <br>
-            <b>Date: </b>{{ order.created|date:"d M Y" }} <br>
             <b>Order Total:</b>${{ order.total }} <br>
             <b>Order Status:</b><i class="fas fa-check"></i> Complete.
           </td>
@@ -62,7 +60,7 @@ Order Details
             {{ order.shippingCountry }} <br>
           </td>
           <td class="text-left" colspan="2">
-            <b>Paymebt Details:</b> <br>
+            <b>Payment Details:</b> <br>
             The order #{{ order.id }} has been paid successfully
           </td>
         </tr>
