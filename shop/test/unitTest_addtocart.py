@@ -28,7 +28,7 @@ class MS_Test5(unittest.TestCase):
 
         try:
             # main page
-            elem_button = driver.find_element_by_xpath('/html/body/div[2]/div/div/div/h1')
+            driver.get("https://onlineshopmusic.herokuapp.com/")
 
             continue_test = True
         except NoSuchElementException:
@@ -36,15 +36,15 @@ class MS_Test5(unittest.TestCase):
             assert False
 
         if continue_test:
-            elem_button = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[3]/div/div[1]/a/img').click()
+            elem_button = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[1]/div/div[1]/a/img').click()
 
         try:
             # main page
-            product_page = driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/div/p[1]')
+            product_page = driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/div/a/button').click()
 
             continue_test = True
         except NoSuchElementException:
-            self.fail("unable to see product page")
+            self.fail("unable to add product")
             assert False
 
         if continue_test:

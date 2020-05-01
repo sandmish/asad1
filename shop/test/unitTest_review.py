@@ -28,18 +28,18 @@ class MS_Test4(unittest.TestCase):
 
         try:
             # main page
-            elem_button = driver.find_element_by_xpath('/html/body/div[2]/div/div/div/h1')
+            driver.get("https://onlineshopmusic.herokuapp.com/")
             continue_test = True
         except NoSuchElementException:
             self.fail("unable to see main page")
             assert False
 
         if continue_test:
-            elem_button = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[3]/div/div[1]/a/img').click()
-
+            elem_button = driver.find_element_by_xpath('/html/body/div[3]/div[1]/div[1]/div/div[1]/a/img').click()
+            time.sleep(1.0)
         try:
             # main page
-            product_page = driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/div/p[1]')
+            product_page = driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/div/h1')
 
             continue_test = True
         except NoSuchElementException:
